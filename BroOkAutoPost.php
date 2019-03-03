@@ -17,3 +17,8 @@ function bro_ok_poster__init() {
 
 add_action( 'plugins_loaded', 'bro_ok_poster__init', 20 );
 
+
+add_action( 'plugins_loaded', function () {
+    require_once( plugin_dir_path( __FILE__ ) . 'include/addSettingsPageOK.php' );
+    new addSettingsPageOK();
+} );
