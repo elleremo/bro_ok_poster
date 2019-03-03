@@ -15,4 +15,5 @@ function bro_ok_poster__init() {
 
 }
 
-add_action( 'plugins_loaded', 'bro_ok_poster__init', 50 );
+add_action( 'plugins_loaded', 'bro_ok_poster__init', 20 );
+
