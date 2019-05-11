@@ -26,9 +26,42 @@ class BroOkAutoPost {
 
     public static function sendText($new_status, $oldStatus, $post ) {
         if ( 'publish' === $new_status  && 'publish' !== $oldStatus ) {
-
+            self::push( $post );
         }
     }
+
+
+    static function push( $post ) {
+
+        $link       = get_permalink( $post );
+        $attachment = '{
+                    "media": [
+                        {
+                            "type": "text",
+                            "text": "' . $post->post_title . '"
+                        },
+                        {
+                            "type": "text",
+                            "text": "' . $post->post_excerpt . '"
+                        },
+                        {
+                            "type": "link",
+                            "url": "' . $link . '"
+                        }
+                    ]
+                }';
+
+        $params = array(
+            "application_key" => self::$publicKey,
+            "method"          => "mediatopic.post",
+            "gid"             => self::$groupID,
+            "type"            => "GROUP_THEME",
+            "attachment"      => $attachment,
+            "format"          => "json",
+        );
+
+    }
+
 
 }
 
