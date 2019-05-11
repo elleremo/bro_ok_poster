@@ -9,7 +9,7 @@ class addSettingsPageOK {
 	public function add_option_field_to_general_admin_page() {
 		add_settings_section(
 			'ok_settings_section', // секция
-			'Настройик оокласников',
+			'Настройки одноклассников',
 			'',
 			'general' // страница
 		);
