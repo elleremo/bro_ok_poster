@@ -60,8 +60,44 @@ class BroOkAutoPost {
             "format"          => "json",
         );
 
+        $sig = md5( self::arInStr( $params ) . md5( self::$accessToken . self::$privateKey ) );
+
+        $params['access_token'] = self::$accessToken;
+        $params['sig']          = $sig;
+
+        return self::http( "https://api.ok.ru/fb.do", $params );
     }
 
+    static function arInStr( $array ) {
+        ksort( $array );
+
+        $string = "";
+
+        foreach ( $array as $key => $val ) {
+            if ( is_array( $val ) ) {
+                $string .= $key . "=" . self::arInStr( $val );
+            } else {
+                $string .= $key . "=" . $val;
+            }
+        }
+
+        return $string;
+    }
+
+    public static function http( $url, $params = array() ) {
+        $response = wp_remote_post( $url, array(
+            'method'      => 'POST',
+            'timeout'     => 45,
+            'redirection' => 5,
+            'httpversion' => '1.0',
+            'blocking'    => true,
+            'headers'     => array(),
+            'body'        => $params,
+            'cookies'     => array()
+        ) );
+
+        return $response;
+    }
 
 }
 
